@@ -1,0 +1,24 @@
+{
+  "name": "electric-bill-system",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "html2pdf.js": "^0.10.3",
+    "papaparse": "^5.5.2",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4",
+    "vue": "^3.5.13",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.2",
+    "vite": "^6.3.1"
+  }
+}

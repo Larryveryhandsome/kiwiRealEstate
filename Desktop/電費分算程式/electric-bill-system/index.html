@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電費管理系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .search-box {
+            margin: 20px 0;
+            padding: 8px;
+            width: 300px;
+        }
+        .button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button.next-period {
+            background-color: #2196F3;
+        }
+        .button.next-period:hover {
+            background-color: #0b7dda;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .period-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .period-selector select {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        .history-table {
+            margin-top: 20px;
+        }
+        .history-table h2 {
+            margin-bottom: 10px;
+        }
+        .accordion {
+            margin-top: 20px;
+        }
+        .accordion-header {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-header:hover {
+            background-color: #e9ecef;
+        }
+        .accordion-content {
+            display: none;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .accordion-content.active {
+            display: block;
+        }
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+        .arrow.active {
+            transform: rotate(180deg);
+        }
+        .period-summary {
+            margin-left: 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .date-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 130px;
+        }
+        .tenant-selector {
+            margin: 20px 0;
+            text-align: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .tenant-selector select {
+            padding: 8px;
+            margin-right: 10px;
+            min-width: 150px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .tenant-selector label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .home-button {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .home-button:hover {
+            background-color: #5a6268;
+        }
+        .tenant-view {
+            display: none;
+        }
+        .admin-view {
+            display: block;
+        }
+        .no-data-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>電費管理系統</h1>
+        
+        <div class="tenant-selector admin-view">
+            <label for="tenantSelect">選擇房客：</label>
+            <select id="tenantSelect" onchange="filterByTenant()">
+                <option value="">請選擇房客</option>
+                <option value="小賀哥">小賀哥</option>
+                <option value="連大姊">連大姊</option>
+                <option value="晴筑">晴筑</option>
+                <option value="亮亮">亮亮</option>
+                <option value="黃大哥">黃大哥</option>
+                <option value="辰融">辰融</option>
+                <option value="林大哥">林大哥</option>
+                <option value="KAI姊">KAI姊</option>
+                <option value="騰哥">騰哥</option>
+                <option value="承瀚">承瀚</option>
+            </select>
+        </div>
+        
+        <div class="admin-view">
+            <div class="period-selector">
+                <select id="periodSelect" onchange="changePeriod()">
+                    <option value="2024-03-04">2024年3-4月</option>
+                </select>
+                <button class="button next-period" onclick="nextPeriod()">下一期</button>
+            </div>
+
+            <div class="input-form">
+                <h2>本期抄表資料</h2>
+                <table id="inputTable">
+                    <thead>
+                        <tr>
+                            <th>樓層</th>
+                            <th>室</th>
+                            <th>錶號</th>
+                            <th>切表日</th>
+                            <th>切表度數</th>
+                            <th>抄表日</th>
+                            <th>抄表度數</th>
+                            <th>用電量</th>
+                            <th>級距/每度</th>
+                            <th>本期應納</th>
+                            <th>繳納人</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inputBody">
+                        <!-- 資料將由 JavaScript 動態填入 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tenant-selector tenant-view" style="display: none;">
+            <label>目前查看：</label>
+            <span id="currentTenant" style="font-weight: bold; margin-right: 20px;"></span>
+            <button class="home-button" onclick="backToHome()">返回首頁</button>
+        </div>
+
+        <input type="text" id="searchInput" class="search-box admin-view" placeholder="搜尋樓層、室別或繳納人...">
+        
+        <table id="electricTable">
+            <thead>
+                <tr>
+                    <th>樓層</th>
+                    <th>室</th>
+                    <th>錶號</th>
+                    <th>切表日</th>
+                    <th>切表度數</th>
+                    <th>抄表日</th>
+                    <th>抄表度數</th>
+                    <th>用電量</th>
+                    <th>級距/每度</th>
+                    <th>每層用電量</th>
+                    <th>本期用電</th>
+                    <th>本期應納</th>
+                    <th>繳納人</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- 資料將由 JavaScript 動態填入 -->
+            </tbody>
+        </table>
+
+        <div class="history-table admin-view">
+            <h2>歷史資料</h2>
+            <div id="historyAccordion" class="accordion">
+                <!-- 歷史資料將由 JavaScript 動態填入 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 電價設定
+        const unitPrice = 5;
+        let allData = []; // 儲存所有資料
+        let historyData = []; // 儲存歷史資料
+        let currentPeriod = '2024-03-04'; // 當前期間
+
+        // 預設資料（3-4月）
+        const defaultData = [
+            {
+                樓層: "2F",
+                室: "A",
+                錶號: "2014-11001941",
+                切表日: "3月4日",
+                切表度數: "2042.4",
+                抄表日: "4月28日",
+                抄表度數: "2224.6",
+                用電量: "182.2",
+                級距每度: 5,
+                每層用電量: "997.4",
+                本期用電: "182.2",
+                本期應納: "911",
+                繳納人: "小賀哥"
+            },
+            {
+                樓層: "2F",
+                室: "B",
+                錶號: "2014-11002499",
+                切表日: "3月4日",
+                切表度數: "1573.6",
+                抄表日: "4月28日",
+                抄表度數: "1784.7",
+                用電量: "211.1",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "211.1",
+                本期應納: "1056",
+                繳納人: "連大姊"
+            },
+            {
+                樓層: "2F",
+                室: "C",
+                錶號: "2014-11002112",
+                切表日: "3月7日",
+                切表度數: "1687",
+                抄表日: "4月28日",
+                抄表度數: "2013.4",
+                用電量: "326.4",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "326.4",
+                本期應納: "1632",
+                繳納人: "晴筑"
+            },
+            {
+                樓層: "2F",
+                室: "D",
+                錶號: "2014-11002551",
+                切表日: "3月4日",
+                切表度數: "2977.2",
+                抄表日: "4月28日",
+                抄表度數: "3254.9",
+                用電量: "277.7",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "277.7",
+                本期應納: "1389",
+                繳納人: "亮亮"
+            },
+            {
+                樓層: "3F",
+                室: "A",
+                錶號: "2014-11003913",
+                切表日: "3月4日",
+                切表度數: "2085.7",
+                抄表日: "4月28日",
+                抄表度數: "2221.5",
+                用電量: "135.8",
+                級距每度: 5,
+                每層用電量: "604.7",
+                本期用電: "135.8",
+                本期應納: "679",
+                繳納人: "黃大哥"
+            },
+            {
+                樓層: "3F",
+                室: "B",
+                錶號: "2014-11002975",
+                切表日: "3月4日",
+                切表度數: "2485.1",
+                抄表日: "4月28日",
+                抄表度數: "2646.5",
+                用電量: "161.4",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "161.4",
+                本期應納: "807",
+                繳納人: "辰融"
+            },
+            {
+                樓層: "3F",
+                室: "C",
+                錶號: "2014-11001613",
+                切表日: "3月4日",
+                切表度數: "1841.3",
+                抄表日: "4月28日",
+                抄表度數: "1976.2",
+                用電量: "134.9",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "134.9",
+                本期應納: "675",
+                繳納人: "林大哥"
+            },
+            {
+                樓層: "3F",
+                室: "D",
+                錶號: "2014-11001630",
+                切表日: "3月4日",
+                切表度數: "2894.2",
+                抄表日: "4月28日",
+                抄表度數: "3066.8",
+                用電量: "172.6",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "172.6",
+                本期應納: "863",
+                繳納人: "KAI姊"
+            },
+            {
+                樓層: "4F",
+                室: "A",
+                錶號: "2014-11005110",
+                切表日: "3月4日",
+                切表度數: "1022",
+                抄表日: "4月28日",
+                抄表度數: "1064.8",
+                用電量: "42.8",
+                級距每度: 5,
+                每層用電量: "580.8",
+                本期用電: "42.8",
+                本期應納: "214",
+                繳納人: "騰哥"
+            },
+            {
+                樓層: "4F",
+                室: "A",
+                錶號: "2014-11003274",
+                切表日: "3月4日",
+                切表度數: "1911.6",
+                抄表日: "4月28日",
+                抄表度數: "2117.9",
+                用電量: "206.3",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "206.3",
+                本期應納: "1032",
+                繳納人: ""
+            },
+            {
+                樓層: "4F",
+                室: "B",
+                錶號: "2014-11001758",
+                切表日: "3月4日",
+                切表度數: "2041.3",
+                抄表日: "4月28日",
+                抄表度數: "2373",
+                用電量: "331.7",
+                級距每度: 5,
+                每層用電量: "",
+                本期用電: "331.7",
+                本期應納: "1659",
+                繳納人: "承瀚"
+            }
+        ];
+
+        // 載入資料
+        function loadData() {
+            allData = [...defaultData];
+            displayData(allData);
+            displayInputForm(allData);
+            setupSearch();
+        }
+
+        // 顯示輸入表單
+        function displayInputForm(data) {
+            const tbody = document.getElementById('inputBody');
+            tbody.innerHTML = '';
+            
+            // 設定預設日期為 2024-06-28
+            const defaultDate = '2024-06-28';
+            
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.樓層}</td>
+                    <td>${row.室}</td>
+                    <td>${row.錶號}</td>
+                    <td>${row.抄表日}</td>
+                    <td>${row.抄表度數}</td>
+                    <td><input type="date" class="date-input end-date" value="${defaultDate}" onchange="updateRow(this)"></td>
+                    <td><input type="number" class="end-reading" step="0.1" 
+                        onchange="updateRow(this)" 
+                        onkeyup="handleKeyUp(event, this)"
+                        onblur="handleBlur(this)"></td>
+                    <td class="usage"></td>
+                    <td>${unitPrice}</td>
+                    <td class="amount"></td>
+                    <td>${row.繳納人}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 處理按鍵事件
+        function handleKeyUp(event, input) {
+            if (event.key === 'Enter') {
+                updateRow(input);
+                // 找到下一個輸入框並聚焦
+                const currentRow = input.closest('tr');
+                const nextRow = currentRow.nextElementSibling;
+                if (nextRow) {
+                    const nextInput = nextRow.querySelector('.end-reading');
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            }
+        }
+
+        // 處理失去焦點事件
+        function handleBlur(input) {
+            if (input.value) {
+                updateRow(input);
+            }
+        }
+
+        // 更新行資料
+        function updateRow(input) {
+            const row = input.closest('tr');
+            const endReading = parseFloat(row.querySelector('.end-reading').value);
+            const startReading = parseFloat(row.querySelector('td:nth-child(5)').textContent);
+            const endDate = row.querySelector('.end-date').value;
+            
+            if (!isNaN(endReading) && !isNaN(startReading)) {
+                const usage = (endReading - startReading).toFixed(1);
+                const amount = (parseFloat(usage) * unitPrice).toFixed(0);
+                
+                row.querySelector('.usage').textContent = usage;
+                row.querySelector('.amount').textContent = amount;
+            }
+        }
+
+        // 下一期
+        function nextPeriod() {
+            // 將當前資料加入歷史
+            const currentData = allData.map(row => {
+                const tr = document.querySelector(`tr:has(td:contains("${row.錶號}"))`);
+                const endDate = tr ? tr.querySelector('.end-date').value : '';
+                const endReading = tr ? tr.querySelector('.end-reading').value : '';
+                const usage = tr ? tr.querySelector('.usage').textContent : '';
+                const amount = tr ? tr.querySelector('.amount').textContent : '';
+                
+                return {
+                    ...row,
+                    期間: currentPeriod,
+                    抄表日: formatDate(endDate),
+                    抄表度數: endReading,
+                    用電量: usage,
+                    本期用電: usage,
+                    本期應納: amount
+                };
+            });
+            historyData = [...historyData, ...currentData];
+            
+            // 更新當前期間
+            const [year, month] = currentPeriod.split('-');
+            const nextMonth = parseInt(month) + 2;
+            const nextYear = nextMonth > 12 ? parseInt(year) + 1 : year;
+            const nextMonthStr = (nextMonth % 12 || 12).toString().padStart(2, '0');
+            currentPeriod = `${nextYear}-${nextMonthStr}-04`;
+            
+            // 更新期間選擇器
+            const periodSelect = document.getElementById('periodSelect');
+            const option = document.createElement('option');
+            option.value = currentPeriod;
+            option.textContent = `${nextYear}年${nextMonth-1}-${nextMonth}月`;
+            periodSelect.appendChild(option);
+            periodSelect.value = currentPeriod;
+            
+            // 更新資料
+            allData = currentData.map(row => ({
+                ...row,
+                切表日: row.抄表日,
+                切表度數: row.抄表度數,
+                抄表日: '',
+                抄表度數: '',
+                用電量: '',
+                本期用電: '',
+                本期應納: ''
+            }));
+            
+            displayData(allData);
+            displayInputForm(allData);
+            displayHistory();
+        }
+
+        // 格式化日期
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return `${date.getMonth() + 1}月${date.getDate()}日`;
+        }
+
+        // 切換期間
+        function changePeriod() {
+            const period = document.getElementById('periodSelect').value;
+            if (period === currentPeriod) {
+                displayData(allData);
+                displayInputForm(allData);
+            } else {
+                const periodData = historyData.filter(row => row.期間 === period);
+                displayData(periodData);
+                document.getElementById('inputForm').style.display = 'none';
+            }
+        }
+
+        // 顯示歷史資料
+        function displayHistory() {
+            const accordion = document.getElementById('historyAccordion');
+            accordion.innerHTML = '';
+            
+            // 按期間分組歷史資料
+            const groupedHistory = {};
+            historyData.forEach(row => {
+                if (!groupedHistory[row.期間]) {
+                    groupedHistory[row.期間] = [];
+                }
+                groupedHistory[row.期間].push(row);
+            });
+            
+            // 反向排序期間，最新的在最上面
+            const periods = Object.keys(groupedHistory).sort().reverse();
+            
+            periods.forEach(period => {
+                const periodData = groupedHistory[period];
+                const totalUsage = periodData.reduce((sum, row) => sum + parseFloat(row.用電量 || 0), 0).toFixed(1);
+                const totalAmount = periodData.reduce((sum, row) => sum + parseFloat(row.本期應納 || 0), 0);
+                
+                const section = document.createElement('div');
+                section.className = 'accordion-section';
+                
+                // 創建標題
+                const header = document.createElement('div');
+                header.className = 'accordion-header';
+                const [year, month] = period.split('-');
+                const monthNum = parseInt(month);
+                header.innerHTML = `
+                    <div>
+                        ${year}年${monthNum}-${monthNum+1}月
+                        <span class="period-summary">
+                            總用電量: ${totalUsage} 度，
+                            總金額: ${totalAmount} 元
+                        </span>
+                    </div>
+                    <span class="arrow">▼</span>
+                `;
+                
+                // 創建內容
+                const content = document.createElement('div');
+                content.className = 'accordion-content';
+                
+                // 創建表格
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>樓層</th>
+                            <th>室</th>
+                            <th>錶號</th>
+                            <th>切表日</th>
+                            <th>切表度數</th>
+                            <th>抄表日</th>
+                            <th>抄表度數</th>
+                            <th>用電量</th>
+                            <th>級距/每度</th>
+                            <th>本期應納</th>
+                            <th>繳納人</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${periodData.map(row => `
+                            <tr>
+                                <td>${row.樓層}</td>
+                                <td>${row.室}</td>
+                                <td>${row.錶號}</td>
+                                <td>${row.切表日}</td>
+                                <td>${row.切表度數}</td>
+                                <td>${row.抄表日}</td>
+                                <td>${row.抄表度數}</td>
+                                <td>${row.用電量}</td>
+                                <td>${row.級距每度}</td>
+                                <td>${row.本期應納}</td>
+                                <td>${row.繳納人}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                
+                content.appendChild(table);
+                section.appendChild(header);
+                section.appendChild(content);
+                accordion.appendChild(section);
+                
+                // 添加點擊事件
+                header.addEventListener('click', () => {
+                    const isActive = content.classList.contains('active');
+                    // 關閉所有其他的面板
+                    document.querySelectorAll('.accordion-content').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    document.querySelectorAll('.arrow').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // 切換當前面板
+                    if (!isActive) {
+                        content.classList.add('active');
+                        header.querySelector('.arrow').classList.add('active');
+                    }
+                });
+            });
+            
+            // 預設打開最新一期的資料
+            if (periods.length > 0) {
+                const firstSection = accordion.querySelector('.accordion-content');
+                const firstArrow = accordion.querySelector('.arrow');
+                if (firstSection && firstArrow) {
+                    firstSection.classList.add('active');
+                    firstArrow.classList.add('active');
+                }
+            }
+        }
+
+        // 依房客篩選資料
+        function filterByTenant() {
+            const selectedTenant = document.getElementById('tenantSelect').value;
+            if (selectedTenant) {
+                // 更新當前查看的房客名稱
+                document.getElementById('currentTenant').textContent = selectedTenant;
+                
+                // 切換視圖
+                document.querySelectorAll('.admin-view').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.tenant-view').forEach(el => el.style.display = 'block');
+                
+                // 顯示該房客的資料
+                const filteredData = allData.filter(row => row.繳納人 === selectedTenant);
+                displayData(filteredData);
+            }
+        }
+
+        // 返回首頁
+        function backToHome() {
+            // 重置房客選擇
+            document.getElementById('tenantSelect').value = '';
+            
+            // 切換視圖
+            document.querySelectorAll('.admin-view').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.tenant-view').forEach(el => el.style.display = 'none');
+            
+            // 顯示所有資料
+            displayData(allData);
+        }
+
+        // 顯示資料
+        function displayData(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            const selectedTenant = document.getElementById('tenantSelect').value;
+            const filteredData = selectedTenant ? data.filter(row => row.繳納人 === selectedTenant) : data;
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="13" class="no-data-message">
+                            ${selectedTenant ? `沒有 ${selectedTenant} 的用電資料` : '請選擇房客查看用電資料'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            filteredData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.樓層}</td>
+                    <td>${row.室}</td>
+                    <td>${row.錶號}</td>
+                    <td>${row.切表日}</td>
+                    <td>${row.切表度數}</td>
+                    <td>${row.抄表日}</td>
+                    <td>${row.抄表度數}</td>
+                    <td>${row.用電量}</td>
+                    <td>${row.級距每度}</td>
+                    <td>${row.每層用電量}</td>
+                    <td>${row.本期用電}</td>
+                    <td>${row.本期應納}</td>
+                    <td>${row.繳納人}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 設定搜尋功能
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filteredData = allData.filter(row => 
+                    row.樓層.toLowerCase().includes(query) ||
+                    row.室.toLowerCase().includes(query) ||
+                    row.繳納人.toLowerCase().includes(query)
+                );
+                displayData(filteredData);
+            });
+        }
+
+        // 頁面載入時執行
+        window.onload = loadData;
+    </script>
+</body>
+</html>
