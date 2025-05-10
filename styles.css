@@ -1,0 +1,639 @@
+/* 全局樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+    line-height: 1.6;
+    color: #223A5E;
+    background: #F5F5DC;
+}
+
+/* 導航欄樣式 */
+.main-nav {
+    background: linear-gradient(90deg, #F5F5DC 80%, #e6eaf3 100%);
+    box-shadow: 0 4px 18px rgba(34,58,94,0.10);
+    border-radius: 0 0 18px 18px;
+    padding: 0.7rem 5% 0.7rem 5%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    min-height: unset;
+    transition: box-shadow 0.2s;
+}
+
+.logo {
+    flex-shrink: 0;
+}
+
+.logo h1 {
+    color: #223A5E;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    white-space: nowrap;
+    letter-spacing: 2px;
+}
+
+.logo img {
+    box-shadow: 0 2px 8px rgba(34,58,94,0.10);
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 1.2rem;
+    align-items: center;
+    margin-left: 1.2rem;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #223A5E;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 6px;
+}
+
+.nav-links a:hover {
+    color: #3498db;
+    background: #e6eaf3;
+    border-bottom: 2px solid #223A5E;
+}
+
+/* 主要內容區域 */
+main {
+    margin-top: 90px;
+}
+
+section {
+    padding: 4rem 5% 2rem 5%;
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+}
+
+/* 英雄區塊 */
+#hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('首頁.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 8rem 5%;
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 物件展示區 */
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+.property-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(34,58,94,0.10);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.3s;
+}
+
+.property-card:hover {
+    box-shadow: 0 8px 32px rgba(34,58,94,0.18);
+}
+
+.property-card img {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    background: #fff;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.property-desc {
+    width: 100%;
+    max-width: 98%;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    color: #223A5E;
+    background: #F5F5DC;
+    border-radius: 8px;
+    padding: 1.2rem 1.1rem 1.2rem 1.1rem;
+    white-space: pre-line;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    line-break: anywhere;
+    hyphens: auto;
+    display: block;
+}
+
+.property-card iframe {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.about-content img {
+    width: 220px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0 1rem 1rem 0;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+}
+
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(34,58,94,0.10);
+    padding: 2rem;
+}
+
+/* 標題樣式 */
+section h2 {
+    color: #223A5E;
+    text-align: left;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    border-left: 6px solid #223A5E;
+    padding-left: 1rem;
+    letter-spacing: 2px;
+}
+
+/* 內容區塊 */
+.about-content,
+.news-content,
+.monthly-content,
+.service-content,
+.recruit-content,
+.contact-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #F5F5DC;
+}
+
+/* 頁尾樣式 */
+footer {
+    background-color: #223A5E;
+    color: #F5F5DC;
+    text-align: center;
+    padding: 2rem 5%;
+    margin-top: 4rem;
+    border-radius: 12px 12px 0 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 900px) {
+    .property-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    section {
+        padding: 2rem 2vw 1rem 2vw;
+    }
+    .main-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 2vw 0.5rem 2vw;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-left: 0;
+    }
+    .logo h1 {
+        font-size: 1.1rem;
+    }
+}
+
+.button, .btn, .line-btn {
+    display: inline-block;
+    background: #223A5E;
+    color: #F5F5DC;
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+    margin: 1rem 0;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.button:hover, .btn:hover, .line-btn:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+/* 新增橫向圖片捲動與LINE分欄 */
+.weekly-scroll .img-row,
+.monthly-content .img-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.weekly-scroll .img-row img,
+.monthly-content .img-row img {
+    height: 220px;
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    background: #fff;
+}
+
+.img-popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(34,58,94,0.85);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.img-popup img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(34,58,94,0.25);
+    background: #fff;
+    padding: 8px;
+}
+.img-popup-close {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    position: absolute;
+    top: 2.5vh;
+    right: 4vw;
+    cursor: pointer;
+    z-index: 10001;
+    text-shadow: 0 2px 8px #223A5E;
+}
+.line-list {
+    margin: 1.2rem 0 0.5rem 0;
+    padding-left: 1.2rem;
+    text-align: left;
+    font-size: 1.08rem;
+    color: #223A5E;
+}
+.line-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+    list-style: disc inside;
+}
+.line-note {
+    margin-top: 0.8rem;
+    color: #3498db;
+    font-weight: 500;
+    font-size: 1.05rem;
+    text-align: left;
+}
+.monthly-summary {
+    background: #F5F5DC;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.08rem;
+    color: #223A5E;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    max-height: 400px;
+    overflow: auto;
+}
+@media (max-width: 900px) {
+    .img-popup img {
+        max-width: 98vw;
+        max-height: 60vh;
+    }
+    .img-popup-close {
+        font-size: 2rem;
+        right: 2vw;
+    }
+}
+
+.img-popup-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.2rem;
+}
+.img-popup-nav button {
+    background: #223A5E;
+    color: #F5F5DC;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7rem 2.2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.img-popup-nav button:hover {
+    background: #3498db;
+    color: #fff;
+}
+.service-content img {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* 招募專區右側美化 */
+.recruit-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(34,58,94,0.10);
+    padding: 2rem;
+}
+.recruit-right {
+    background: linear-gradient(120deg, #e6eaf3 60%, #F5F5DC 100%);
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    min-width: 320px;
+    max-width: 420px;
+    text-align: right;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.ai-team-icon {
+    width: 54px;
+    margin-bottom: 1rem;
+}
+.recruit-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #223A5E;
+    margin-bottom: 0.7rem;
+}
+.recruit-desc {
+    color: #223A5E;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    margin-bottom: 0.7rem;
+}
+.recruit-note {
+    color: #3498db;
+    font-size: 1rem;
+    margin-top: 0.7rem;
+}
+
+/* 加入LINE右側美化 */
+.line-right {
+    background: linear-gradient(120deg, #e6eaf3 60%, #F5F5DC 100%);
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    min-width: 320px;
+    max-width: 420px;
+    text-align: right;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+}
+.line-ai-desc {
+    margin-top: 1.2rem;
+    color: #223A5E;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    text-align: right;
+}
+.line-ai-title {
+    font-weight: bold;
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+.line-ai-desc ul {
+    margin: 0.5rem 0 0 0;
+    padding: 0 0 0 1.2rem;
+    list-style-position: inside;
+    text-align: right;
+}
+.line-ai-desc li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+.line-ai-note {
+    margin-top: 0.5rem;
+    color: #3498db;
+}
+
+@media (max-width: 900px) {
+    .recruit-content, .contact-content.line-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+    .recruit-right, .line-right {
+        min-width: unset;
+        max-width: 98vw;
+        width: 100%;
+        text-align: right;
+        align-items: flex-end;
+        margin-left: 0;
+        margin-top: 1.5rem;
+    }
+}
+
+/* 房產週報三分卡片式美化 */
+.weekly-news-analysis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+    justify-content: space-between;
+}
+.news-bad, .news-good, .news-comment {
+    flex: 1 1 320px;
+    background: #f7f8fa;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(34,58,94,0.08);
+    padding: 1.5rem 1.2rem;
+    margin-bottom: 1.5rem;
+    min-width: 300px;
+}
+.news-bad h3, .news-good h3, .news-comment h3 {
+    font-size: 1.18rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.news-bad h3 { color: #d32f2f; }
+.news-good h3 { color: #388e3c; }
+.news-comment h3 { color: #fbc02d; }
+.news-bad ol, .news-good ol {
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+}
+.news-bad li, .news-good li {
+    margin-bottom: 0.7rem;
+    line-height: 1.7;
+}
+.news-comment p {
+    color: #223A5E;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 0.7rem;
+}
+
+/* 委託服務右側卡片美化 */
+.service-right-card {
+    background: linear-gradient(120deg, #e6eaf3 60%, #F5F5DC 100%);
+    border-radius: 14px;
+    padding: 2rem 1.5rem;
+    min-width: 340px;
+    max-width: 540px;
+    box-shadow: 0 2px 8px rgba(34,58,94,0.08);
+    margin-left: auto;
+    font-size: 1.08rem;
+    color: #223A5E;
+}
+.service-right-card h3 {
+    color: #223A5E;
+    font-size: 1.18rem;
+    font-weight: bold;
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+.service-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.2rem;
+}
+.service-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(34,58,94,0.06);
+    font-size: 1.02rem;
+}
+.service-table th, .service-table td {
+    border: 1px solid #e6eaf3;
+    padding: 0.7rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+}
+.service-table th {
+    background: #223A5E;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+.service-table td b {
+    color: #3498db;
+}
+.service-adv-list, .service-why-list {
+    margin: 0.7rem 0 1.2rem 1.2rem;
+    padding-left: 1.2rem;
+}
+.service-adv-list > li, .service-why-list > li {
+    margin-bottom: 0.7rem;
+    line-height: 1.7;
+}
+.service-adv-list ul, .service-why-list ul {
+    margin: 0.3rem 0 0.7rem 1.2rem;
+    padding-left: 1.2rem;
+}
+.service-contact-note {
+    color: #3498db;
+    font-weight: bold;
+    margin-top: 1.2rem;
+    font-size: 1.08rem;
+}
+
+/* 加入LINE兩側齊頭對齊 */
+.contact-content.line-flex {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.line-side {
+    flex: 1 1 320px;
+    min-width: 320px;
+    max-width: 420px;
+    margin: 0;
+}
+.line-right {
+    margin-left: 0;
+}
+@media (max-width: 900px) {
+    .service-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .service-right-card {
+        min-width: unset;
+        max-width: 98vw;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1.5rem;
+    }
+    .contact-content.line-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+    .line-side {
+        min-width: unset;
+        max-width: 98vw;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+} 
